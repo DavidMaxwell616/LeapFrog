@@ -4,6 +4,15 @@ const game = new Phaser.Game(800, 500, Phaser.AUTO, 'game', {
   update,
 });
 
+var jumpdistance = 0;
+var jumpheight = 50;
+var XVelocity = 2.8;
+var YVelocity = -10;
+var gravity = .5;
+var jumping;
+var shortJump = 40;
+var longJump = 80;
+
 function create() {
   //game.stage.backgroundColor = '#001133';
   DrawBackground();
@@ -88,13 +97,17 @@ function reset(sprite) {
 
 function listener(sprite) {
   if (sprite.key === "leftFrog") {
-    if (sprite.id < 7 && !rockTaken[sprite.id + 1]) {
-      sprite.jumping = true;
-      sprite.doubleJump = false;
-    } else if (sprite.id < 6 && !rockTaken[sprite.id + 2]) {
-      sprite.jumping = true;
-      sprite.doubleJump = true;
-    }
+    sprite.jumping = true;
+    sprite.animations.play('jump', 10, false);
+    // if (sprite.id < 7 && !rockTaken[sprite.id + 1]) {
+    //   sprite.jumping = true;
+    //   sprite.doubleJump = false;
+    //   sprite.animations.play('jump', 10, false);
+    // } else if (sprite.id < 6 && !rockTaken[sprite.id + 2]) {
+    //   sprite.jumping = true;
+    //   sprite.doubleJump = true;
+    //   sprite.animations.play('jump', 10, false);
+    // }
   } else if (sprite.key == "rightFrog") {
     console.log(sprite.id);
     if (sprite.id > 0 && !rockTaken[sprite.id - 1]) {
@@ -111,15 +124,22 @@ function update() {
   for (let i = 0; i < 3; i++) {
     if (leftFrog[i].jumping) {
       var sprite = leftFrog[i];
-      sprite.x = rock[sprite.id + 1].x;
-      rockTaken[sprite.id] = false;
-      sprite.id++;
-      rockTaken[sprite.id] = true;
-      sprite.animations.play('jump', 10, false);
+      if (jumpdistance < shortJump) {
+        sprite.x += XVelocity;
+        sprite.y += YVelocity;
+        YVelocity += gravity;
+        jumpdistance++;
+      } else {
+        jumpdistance = 0;
+        sprite.jumping = false;
+        YVelocity = -10;
+        sprite.frame = 0;
+      }
     }
   }
-  // if (sprite[0].key === "redcircle" &&
-  //   sprite[1].key === "redcircle" &&
-  //   sprite[2].key === "redcircle")
-  //   alert('YOU WIN!!');
 }
+// if (sprite[0].key === "redcircle" &&
+//   sprite[1].key === "redcircle" &&
+//   sprite[2].key === "redcircle")
+//   alert('YOU WIN!!');
+//}

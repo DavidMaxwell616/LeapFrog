@@ -17,8 +17,9 @@
     var sprite;
     var jumpdistance = 0;
     var jumpheight = 50;
-    var Yvelocity = -20;
-    var gravity = 1;
+    var XVelocity = 5;
+    var YVelocity = -10;
+    var gravity = .5;
     var jumping;
     var shortJump = 40;
     var longJump = 80;
@@ -49,14 +50,14 @@
       if (jumping) {
 
         if (jumpdistance < shortJump) {
-          sprite.x += 10;
-          sprite.y += Yvelocity;
-          Yvelocity += gravity;
+          sprite.x += XVelocity;
+          sprite.y += YVelocity;
+          YVelocity += gravity;
           jumpdistance++;
         } else {
           jumpdistance = 0;
           jumping = false;
-          Yvelocity = -20;
+          YVelocity = -10;
           sprite.frame = 0;
         }
       }
