@@ -1,0 +1,13 @@
+let player;
+let playIntro = true;
+let score = 0;
+let scoreText;
+let startGame = false;
+let maxxdaddy;
+let curScore = 0;
+let rock = [];
+let cattail = [];
+let grass = [];
+let leftFrog = [];
+let rightFrog = [];
+var rockTaken = [];

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="js/phaser.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <script>
+    var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', {
+      preload: preload,
+      create: create,
+      update: update
+    });
+
+    var sprite;
+    var jumpdistance = 0;
+    var jumpheight = 50;
+    var Yvelocity = -20;
+    var gravity = 1;
+    var jumping;
+    var shortJump = 40;
+    var longJump = 80;
+
+    function preload() {
+      game.load.spritesheet('brownFrog', '../assets/images/brownFrog.png', 350,
+        240);
+
+    }
+
+    function create() {
+
+      sprite = game.add.sprite(120, 215, 'brownFrog');
+      sprite.inputEnabled = true;
+      sprite.events.onInputDown.add(listener, this);
+      sprite.scale.x = .4;
+      sprite.scale.y = .4;
+      sprite.animations.add('jump');
+
+    }
+
+    function listener(sprite) {
+      jumping = true;
+      sprite.animations.play('jump', 10, false);
+    }
+
+    function update() {
+      if (jumping) {
+
+        if (jumpdistance < shortJump) {
+          sprite.x += 10;
+          sprite.y += Yvelocity;
+          Yvelocity += gravity;
+          jumpdistance++;
+        } else {
+          jumpdistance = 0;
+          jumping = false;
+          Yvelocity = -20;
+          sprite.frame = 0;
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>
