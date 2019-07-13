@@ -120,12 +120,14 @@ function listener(sprite) {
       sprite.animations.play('jump', 10, false);
       rockTaken[sprite.id + 1] = true;
       rockTaken[sprite.id] = false;
+      sprite.id++;
     } else if (sprite.id < 6 && !rockTaken[sprite.id + 2]) {
       sprite.jumping = true;
       sprite.doubleJump = true;
       sprite.animations.play('jump', 10, false);
       rockTaken[sprite.id + 2] = true;
       rockTaken[sprite.id] = false;
+      sprite.id += 2;
     }
   } else if (sprite.key == 'rightFrog') {
     if (sprite.id > 0 && !rockTaken[sprite.id - 1]) {
@@ -134,12 +136,14 @@ function listener(sprite) {
       sprite.animations.play('jump', 10, false);
       rockTaken[sprite.id - 1] = true;
       rockTaken[sprite.id] = false;
+      sprite.id--;
     } else if (sprite.id > 1 && !rockTaken[sprite.id - 2]) {
       sprite.jumping = true;
       sprite.doubleJump = true;
       sprite.animations.play('jump', 10, false);
       rockTaken[sprite.id - 2] = true;
       rockTaken[sprite.id] = false;
+      sprite.id -= 2;
     }
   } else if (sprite.key == 'reset') {
     DestroyFrogs();
@@ -178,10 +182,15 @@ function update() {
         sprite.frame = 0;
       }
     }
+
+    if (
+      leftFrog[0].id === 6 &&
+      leftFrog[1].id === 5 &&
+      leftFrog[2].id === 4 &&
+      rightFrog[4].id === 2 &&
+      rightFrog[5].id === 1 &&
+      rightFrog[6].id === 0
+    )
+      alert('YOU WIN!!');
   }
 }
-// if (sprite[0].key === "redcircle" &&
-//   sprite[1].key === "redcircle" &&
-//   sprite[2].key === "redcircle")
-//   alert('YOU WIN!!');
-//}
