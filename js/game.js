@@ -114,12 +114,6 @@ function InitFrogs() {
   }
 }
 
-function reset() {
-  InitFrogs();
-  jumps = 0;
-  successText.setText('');
-}
-
 function listener(sprite) {
   if (sprite.key === 'leftFrog') {
     if (sprite.id < 7 && !rockTaken[sprite.id + 1]) {
@@ -158,6 +152,8 @@ function listener(sprite) {
       sprite.id -= 2;
     }
   } else if (sprite.key == 'reset') {
+    successText.setText('');
+    jumps = 0;
     DestroyFrogs();
     InitFrogs();
   }
