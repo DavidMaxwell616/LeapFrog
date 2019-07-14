@@ -9,6 +9,8 @@ var YVelocity = -10;
 var gravity = 0.5;
 var shortJump = 41;
 var longJump = 80;
+var jumps = 0;
+var successText;
 
 function create() {
   DrawBackground();
@@ -110,11 +112,14 @@ function InitFrogs() {
 
 function reset(sprite) {
   InitFrogs();
+  jumps = 0;
+  successText.visible = false;
 }
 
 function listener(sprite) {
   if (sprite.key === 'leftFrog') {
     if (sprite.id < 7 && !rockTaken[sprite.id + 1]) {
+      jumps++;
       sprite.jumping = true;
       sprite.doubleJump = false;
       sprite.animations.play('jump', 10, false);
@@ -122,6 +127,7 @@ function listener(sprite) {
       rockTaken[sprite.id] = false;
       sprite.id++;
     } else if (sprite.id < 6 && !rockTaken[sprite.id + 2]) {
+      jumps++;
       sprite.jumping = true;
       sprite.doubleJump = true;
       sprite.animations.play('jump', 10, false);
@@ -131,6 +137,7 @@ function listener(sprite) {
     }
   } else if (sprite.key == 'rightFrog') {
     if (sprite.id > 0 && !rockTaken[sprite.id - 1]) {
+      jumps++;
       sprite.jumping = true;
       sprite.doubleJump = false;
       sprite.animations.play('jump', 10, false);
@@ -138,6 +145,7 @@ function listener(sprite) {
       rockTaken[sprite.id] = false;
       sprite.id--;
     } else if (sprite.id > 1 && !rockTaken[sprite.id - 2]) {
+      jumps++;
       sprite.jumping = true;
       sprite.doubleJump = true;
       sprite.animations.play('jump', 10, false);
@@ -149,6 +157,18 @@ function listener(sprite) {
     DestroyFrogs();
     InitFrogs();
   }
+}
+
+function showText() {
+  successText = game.add.text(
+    150,
+    150,
+    'Solved puzzle in ' + jumps + ' moves!',
+    {
+      fill: '#ff00ff',
+      font: '36pt Impact',
+    },
+  );
 }
 
 function update() {
@@ -182,15 +202,16 @@ function update() {
         sprite.frame = 0;
       }
     }
-
     if (
-      leftFrog[0].id === 6 &&
+      leftFrog[0].id === 4 &&
       leftFrog[1].id === 5 &&
-      leftFrog[2].id === 4 &&
-      rightFrog[4].id === 2 &&
-      rightFrog[5].id === 1 &&
-      rightFrog[6].id === 0
-    )
-      alert('YOU WIN!!');
+      leftFrog[2].id === 6 &&
+      rightFrog[0].id === 0 &&
+      rightFrog[1].id === 1 &&
+      rightFrog[2].id === 2
+    ) {
+      showText();
+      successText.visible = true;
+    }
   }
 }
