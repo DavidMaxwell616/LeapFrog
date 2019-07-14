@@ -15,6 +15,10 @@ var successText;
 function create() {
   DrawBackground();
   InitFrogs();
+  successText = game.add.text(150, 150, '', {
+    fill: '#ff00ff',
+    font: '36pt Impact',
+  });
 }
 
 function DrawBackground() {
@@ -110,10 +114,10 @@ function InitFrogs() {
   }
 }
 
-function reset(sprite) {
+function reset() {
   InitFrogs();
   jumps = 0;
-  successText.visible = false;
+  successText.setText('');
 }
 
 function listener(sprite) {
@@ -159,18 +163,6 @@ function listener(sprite) {
   }
 }
 
-function showText() {
-  successText = game.add.text(
-    150,
-    150,
-    'Solved puzzle in ' + jumps + ' moves!',
-    {
-      fill: '#ff00ff',
-      font: '36pt Impact',
-    },
-  );
-}
-
 function update() {
   for (let i = 0; i < 3; i++) {
     if (leftFrog[i].jumping) {
@@ -210,8 +202,7 @@ function update() {
       rightFrog[1].id === 1 &&
       rightFrog[2].id === 2
     ) {
-      showText();
-      successText.visible = true;
+      successText.setText('Solved puzzle in ' + jumps + ' moves!');
     }
   }
 }
